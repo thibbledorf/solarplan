@@ -1,8 +1,26 @@
 # solarplan
-boatsolarbattery update
+
+A comprehensive guide for upgrading a boat's electrical system with solar power and dual-bank battery management.
+
+## 📚 Quick Start
+
+This project documents a **1.2kA marine solar and split-farm battery upgrade** for boats. It includes a complete procurement list, wiring schematics, installation procedures, and commissioning tests. All recommendations follow marine-grade standards, particularly focusing on bilge safety with **UL 1426 Tinned Copper cable**.
+
 For a 10-foot run transiting bilges, you must use **UL 1426 Tinned Copper Marine Grade Cable**. Unlike standard automotive or residential wire, tinned copper resists the "green death" (corrosion) common in high-humidity bilges, and the insulation is rated for oil, fuel, and acid resistance.
 
-Here is your updated documentation in GitHub-style Markdown.
+## 📖 Table of Contents
+
+- [Quick Start](#-quick-start)
+- [Project Overview](#-project-12ka-marine-solar--split-farm-battery-upgrade)
+- [Procurement List](#-updated-procurement-list)
+- [Wiring Schematic](#-final-schematic-color-coded)
+- [Installation Checklist](#-step-by-step-installation-checklist)
+- [Programming Instructions](#️-programming-instructions)
+- [Testing Procedures](#-final-test-plan-check-off)
+- [Contributing](CONTRIBUTING.md)
+- [About This Project](ABOUT.md)
+
+---
 
 # 🚢 Project: 1.2kA Marine Solar & Split-Farm Battery Upgrade
 
