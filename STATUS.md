@@ -86,23 +86,39 @@
 
 ## 📈 Expansion Plans
 
-### Phase 1: Solar Array Expansion (⏳ PENDING DECISION)
+### Phase 1: Solar Array Expansion (✅ DECIDED)
 
 **New Panels:** 2× 200W (additional 400W capacity)
 
-**Configuration Options:**
+**Configuration Chosen: Dedicated Renogy 40 MPPT**
 
-**Option A: Add to Existing Strings**
-- Pros: Single MPPT controller, simpler wiring
-- Cons: Unbalanced strings (3+3 → 4+3 or 3+4), potential efficiency loss
-- Decision: *Need to evaluate string voltage/current impact*
+**Rationale:**
+- Current system: 6 panels via concentrator to Renogy 150/60 (peak output ~900W with some clipping)
+- Renogy 150/60 max output: 60A (720W @ 12V) — already experiencing ~15A clipping
+- New approach: Add 2 panels to dedicated Renogy 40 MPPT to avoid clipping
+- Renogy 40 max output: 40A (480W @ 12V) — perfect for 2×200W panels (~300W actual)
 
-**Option B: Dedicated Second Energy MPPT**
-- Pros: Balanced strings, optimal MPPT tracking, future flexibility
-- Cons: Additional equipment, more complex wiring
-- Decision: *Aligns with Victron ecosystem plan*
+**Wiring Configuration:**
 
-**Status:** ⏳ **Awaiting decision on panel configuration**
+Panel 1 (+) → MPPT Input (+)  
+Panel 1 (-) ← → Panel 2 (+) (jumper cable with waterproof connector)  
+Panel 2 (-) → MPPT Input (-)  
+
+Result: Series connection = ~36V input to Renogy 40 (well within 150V max)
+
+**MPPT Output Connections:**
+- Renogy 150/60 output → Victron Bus
+- Renogy 40 output → Victron Bus (same location, parallel connection)
+
+**Advantages:**
+✅ No clipping on new panels  
+✅ Independent MPPT optimization  
+✅ Each controller handles appropriate load  
+✅ Prepares for multi-MPPT architecture  
+✅ Uses equipment on hand (no waiting for new gear)  
+✅ Future expansion ready  
+
+**Status:** ✅ **Decision locked. Ready for installation.**
 
 ---
 
@@ -143,19 +159,33 @@
 
 ---
 
-### Phase 4: A/C Power Expansion (📦 PENDING INTEGRATION)
+### Phase 4: A/C Power Expansion (✅ SPECIFIED)
 
-**Component:** 8kW slow-start A/C inverter
+**Component:** Velair i09 9,000 BTU 12V DC Variable Speed Smart Marine A/C with Reverse-Cycle Heat
 
-**Integration Questions:**
-- [ ] Power source: Direct from 800Ah main bank or separate tap?
-- [ ] Load distribution: Run A/C through Magnum 2000 + dedicated 8k inverter?
-- [ ] Startup coordination: How does slow-start interact with bank capacity?
-- [ ] Breaker/protection sizing: 8k startup inrush requirements?
+**Specifications:**
+- Power supply: **12V DC direct** (no inverter needed)
+- Max power consumption: **45A** (full cooling)
+- Eco mode: **18A**
+- Cooling capacity: 2500–9000 BTU/h (variable)
+- Reverse-cycle heating capability included
+- VSD (Variable Speed Drive) inverter for smooth startup, no power peaks
+- Water-cooled condenser: requires 3.2+ GPM seawater circulation
+- Smart M7 Touch control panel (26'/8m cable)
 
-**Estimated Timeline:** Post-Orion S + Cerbo GX installation
+**Integration Plan:**
+- [ ] Wire 45A circuit from Victron Bus to A/C unit
+- [ ] Install appropriate 45A breaker/fuse protection
+- [ ] Seawater intake loop (through through-hull fitting)
+- [ ] Seawater return loop (drain via through-hull)
+- [ ] Mount control panel in cabin (standard 503-sized box)
+- [ ] Test VSD startup behavior with battery bank
 
-**Status:** 📋 **Pending integration planning**
+**Key Advantage:** Direct 12V DC load — no AC inverter needed. Simple integration to Victron Bus as another DC load.
+
+**Estimated Timeline:** Post-Orion S + Cerbo GX installation (to finalize bus capacity planning)
+
+**Status:** ✅ **Specifications confirmed. Ready for circuit design phase.**
 
 ---
 
@@ -197,47 +227,69 @@ The following components require configuration assistance via chat:
 
 ## ❓ Outstanding Questions
 
-These need resolution before proceeding with each phase:
-
-**Solar Expansion:**
-1. What is the current voltage output of each 3-panel string?
-2. What is the current output per string under typical conditions?
-3. Can the existing Renogy 150/60 handle a 4-3 string configuration, or is Option B (new MPPT) preferred?
-
-**8kW A/C Inverter:**
-1. Direct battery connection or separate tap from main bank?
-2. Will A/C loads be split between Magnum 2000 and 8k inverter, or dedicated split?
-3. Slow-start ramp specifications — what inrush current does it limit to?
-4. Total system A/C capacity planning: Magnum 2000 + 8k = potential 10kW, but does battery support simultaneous use?
+These need resolution before proceeding with remaining phases:
 
 **Cerbo GX Integration:**
-1. Will it be the primary monitoring interface, replacing ME-ARC?
-2. Internet connectivity desired (for remote monitoring)?
+1. Will it be the primary monitoring interface, or supplement ME-ARC?
+2. Internet connectivity desired (for remote monitoring via VRM portal)?
 3. Integration with Magnum 2000 — direct connection or via separate data link?
+
+**System Capacity Planning:**
+1. With Velair i09 pulling max 45A, Orion S potentially pulling up to 50A, and loads in port — what's the realistic simultaneous draw on the 800Ah bank?
+2. Do you anticipate needing a shunt monitor (Victron SmartShunt) for precise state-of-charge tracking?
+3. Any plans for load shedding or priority management during low-battery conditions?
+
+**Installation Sequencing:**
+1. Which component should we tackle first? (Orion S config, Renogy 40 panel wiring, Cerbo GX setup, A/C circuit planning)
 
 ---
 
 ## 📋 Next Steps
 
-**Immediate (Next Session):**
-1. Decide on solar expansion approach (Option A vs Option B)
-2. Clarify 8kW A/C inverter integration requirements
-3. Plan Orion S 50/50 installation sequence
+**Decisions Made:**
+✅ Solar expansion via dedicated Renogy 40 MPPT  
+✅ A/C unit is Velair i09 (12V DC direct)  
+✅ Both MPPT outputs to single Victron Bus  
+
+**Immediate (Ready Now):**
+1. ⏳ Choose installation sequence (see options below)
+2. ⏳ Clarify Cerbo GX integration requirements
+3. ⏳ Plan system capacity/load management strategy
+
+**Installation Sequencing Options:**
+
+**Option 1: Orion S First**
+- Benefit: Addresses engine battery ↔ solar bridge (foundational)
+- Config via VictronConnect
+- Test with existing system before adding complexity
+
+**Option 2: Renogy 40 Panel Wiring First**
+- Benefit: Quick win, expands solar capacity immediately
+- Physical installation (series panel wiring, Victron Bus connections)
+- No new equipment to configure
+
+**Option 3: Cerbo GX First**
+- Benefit: Unified monitoring for all components going forward
+- Setup before Orion S so you can monitor it during config
+- Network/integration planning needed
 
 **Short Term (Weeks):**
-1. Install and configure Orion S 50/50
-2. Install and configure Cerbo GX
-3. Test unified monitoring system
+1. Install and configure chosen component
+2. Test and verify operation
+3. Install remaining two components
+4. Test unified system with Cerbo GX monitoring
 
 **Medium Term (Months):**
-1. Implement solar expansion (once approach is decided)
-2. Install and integrate 8kW A/C inverter
-3. Optimize system performance and charging profiles
+1. Install A/C seawater loop and electrical circuit
+2. Commission Velair i09 and test VSD operation
+3. Optimize system performance and battery management profiles
+4. Monitor real-world power consumption patterns
 
 **Long Term (Future):**
-1. Evaluate complete Victron system migration
-2. Consider additional battery expansion if cruise range needs increase
-3. Explore smart load management and automation
+1. Evaluate complete Victron system migration (replace Renogy 150/60)
+2. Plan additional solar panels and multi-MPPT architecture
+3. Consider battery expansion if extended offshore cruising needed
+4. Implement smart load shedding and automation
 
 ---
 
